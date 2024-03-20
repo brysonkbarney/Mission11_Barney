@@ -8,39 +8,34 @@
     <p class="lead">View our available books down below.</p>
 </div>
 
-@* test *@
 
-<table class="table table-hover table-striped">
-    <thead>
-    <tr>
-        @* <th>Book ID</th> *@
-        <th>Title</th>
-        <th>Author</th>
-        <th>Publisher</th>
-        <th>ISBN</th>
-        <th>Classification</th>
-        <th>Category</th>
-        <th>Page Count</th>
-        <th>Price</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var book in Model)
-    {
-        <tr>
-            @* <td>@book.BookId</td> *@
-            <td>@book.Title</td>
-            <td>@book.Author</td>
-            <td>@book.Publisher</td>
-            <td>@book.Isbn</td>
-            <td>@book.Classification</td>
-            <td>@book.Category</td>
-            <td>@book.PageCount</td>
-            <td>@String.Format("{0:C}", book.Price)</td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        @foreach (var book in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <!-- Optional: Insert an image here using <img> tag with class="card-img-top" if you have book images -->
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text">Author: @book.Author</p>
+                        <p class="card-text">Publisher: @book.Publisher</p>
+                        <p class="card-text">ISBN: @book.Isbn</p>
+                        <p class="card-text">Category: @book.Category</p>
+                        <p class="card-text">Classification: @book.Classification</p>
+                        <p class="card-text">@book.PageCount Pages</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Price: @book.Price.ToString("c")</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
 
 <nav aria-label="Page navigation" class="mt-3">
     <ul class="pagination justify-content-center">
