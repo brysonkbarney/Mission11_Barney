@@ -6,26 +6,31 @@ namespace Mission11_Barney.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private IBookstoreRepository _repo;
+    
+    public HomeController(IBookstoreRepository temp)
     {
-        _logger = logger;
+        _repo = temp;
+    }
+    public IActionResult Index(int page = 1)
+    {
+        int pageSize = 10; // Number of items per page
+        // This assumes _repo.Books properly exposes an IQueryable<Book>
+        var booksQuery = _repo.Books; // No need for AsQueryable() if Books is already IQueryable
+
+        var paginatedBooks = booksQuery
+            .OrderBy(b => b.BookId)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        var totalBooks = booksQuery.Count();
+        var totalPages = (int)Math.Ceiling(totalBooks / (double)pageSize);
+
+        ViewBag.CurrentPage = page;
+        ViewBag.TotalPages = totalPages;
+
+        return View(paginatedBooks); // Passing the paginated list of books directly as the model
     }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
 }

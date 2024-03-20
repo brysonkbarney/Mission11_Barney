@@ -1,6 +1,6 @@
 namespace Mission11_Barney.Models;
 
-public class IBookstoreRepository
-{
-    
+public interface IBookstoreRepository
+{ 
+    IQueryable<Book> Books { get; }
 }
